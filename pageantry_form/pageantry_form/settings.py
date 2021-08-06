@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,10 +25,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dylanbram354.pythonanywhere.com']
 
 
 # Application definition
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dylanbram354$pageantry_database',
+        'USER': 'dylanbram354',
+        'PASSWORD': 'mySQLpw12',
+        'HOST': 'dylanbram354.mysql.pythonanywhere-services.com',
+    }
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'warranty_form.apps.WarrantyFormConfig'
+    'warranty_form.apps.WarrantyFormConfig',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -48,7 +59,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
+
+CORS_ORIGIN_ALLOW_ALL=True
 
 ROOT_URLCONF = 'pageantry_form.urls'
 
@@ -67,6 +81,8 @@ TEMPLATES = [
         },
     },
 ]
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 WSGI_APPLICATION = 'pageantry_form.wsgi.application'
 
